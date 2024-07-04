@@ -1,1 +1,4 @@
+.idea/
+.htaccess
 vendor/
+data.db

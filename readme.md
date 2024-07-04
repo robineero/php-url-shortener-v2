@@ -11,8 +11,23 @@ sqlite3
 
 In php.ini uncomment extension=pdo_sqlite and extension=sqlite3.
 
-# Composer packages
+## Composer packages
 
+~~~
 vlucas/phpdotenv
+twig/twig
+~~~
 
-`composer dup-autoload` - run after updating autoload configuration.
+`composer dump-autoload` - run after updating autoload configuration.
+
+## htaccess
+
+~~~
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /redirect/
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /redirect/index.php [L]
+~~~
