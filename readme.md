@@ -13,14 +13,19 @@ In php.ini uncomment extension=pdo_sqlite and extension=sqlite3.
 
 ## Composer packages
 
+[Dotenv](https://www.youtube.com/watch?v=qAkxQIYHlUw) for variables, twig for templating. [Doctrine](https://www.youtube.com/watch?v=bfTIVQvS5JI) for queries
+
 ~~~
 vlucas/phpdotenv
 twig/twig
+doctrine/dbal
 ~~~
 
 `composer dump-autoload` - run after updating autoload configuration.
 
 ## htaccess
+
+Replace "redirect" with the name of the directory.
 
 ~~~
 RewriteEngine On

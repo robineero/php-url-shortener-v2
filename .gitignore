@@ -1,4 +1,5 @@
 .idea/
 .htaccess
+.env
 vendor/
 data.db

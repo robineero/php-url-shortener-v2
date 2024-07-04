@@ -1,18 +1,21 @@
 <?php
 
-function getConnection() : PDO {
+require __DIR__ . '/vendor/autoload.php';
+use Doctrine\DBAL\DriverManager;
 
-    try {
-        $conn = new PDO("sqlite:" . __DIR__ . "/data.db");
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $conn;
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-    } catch (PDOException $e) {
-        throw new RuntimeException("Can not connect.");
-    }
+function getConnection() {
+    $connectionParams = [
+        'path' => 'data.db',
+        'driver' => 'pdo_sqlite',
+    ];
+
+    $conn = DriverManager::getConnection($connectionParams);
+
+    return $conn;
 }
-
-
 
 if (isset($_POST['url']) && isset($_POST['slug'])) {
 
@@ -26,9 +29,12 @@ if (isset($_POST['url']) && isset($_POST['slug'])) {
     $sql = "INSERT INTO link (url, slug, created_at)
             VALUES (:url, :slug, :created_at)";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':url', $_POST['url']);
-    $stmt->bindParam(':slug', $_POST['slug']);
-    $stmt->bindParam(':created_at', $created_at);
-    $stmt->execute();
+    $stmt->bindValue(':url', $_POST['url']);
+    $stmt->bindValue(':slug', $_POST['slug']);
+    $stmt->bindValue(':created_at', $created_at);
+    $stmt->executeStatement();
 
+    $conn->close();
 }
+
+
