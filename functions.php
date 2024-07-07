@@ -8,7 +8,7 @@ $dotenv->load();
 
 function getConnection() {
     $connectionParams = [
-        'path' => 'data.db',
+        'path' => $_ENV['DB_FILE_NAME'],
         'driver' => 'pdo_sqlite',
     ];
 
@@ -43,4 +43,6 @@ if (isset($_POST['url']) && isset($_POST['slug'])) {
     $stmt->executeStatement();
 
     $conn->close();
+
+    header("Location: /" . $_ENV['DIR_NAME'], true, 301);
 }
