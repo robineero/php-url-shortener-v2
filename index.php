@@ -48,26 +48,60 @@ $temp = time();
 $links = getLinks();
 
 ?>
-
-<form action="functions.php" method="POST">
-    URL: <input type="text" name="url" value="https://erimell.ee/pood/?fwp_pakendi_suurus=vaat&fwp_brand=mannol"><br>
-    Slug: <input type="text" name="slug" value="<?php echo $temp; ?>"><br>
-    <input type="submit">
-</form>
-
-<?php foreach ($links as $link): ?>
-    <a href="<?= $link['slug'] ?>" target="_blank"><?= $link['slug'] ?></a><br>
-<?php endforeach; ?>
-
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>URL Shortener</title>
+    <title>URL Shortener V2</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<h1>Hello, world!</h1>
+
+<div class="container">
+    <div class="row py-3">
+        <div class="col">
+
+            <form action="functions.php" method="POST">
+                <div class="mb-3">
+                    <label for="url" class="form-label">URL</label>
+                    <input type="text" name="url" class="form-control" value="" id="url">
+                </div>
+                <div class="mb-3">
+                    <label for="slug" class="form-label">Slug</label>
+                    <input type="text" name="slug" class="form-control" value="<?php echo $temp; ?>" id="slug">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Short</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Created at</th>
+                </tr>
+                </thead>
+                <?php foreach ($links as $link): ?>
+                    <tr>
+                        <td><a href="<?= $link['slug'] ?>" target="_blank"><?= $link['slug'] ?></a></td>
+                        <td><a href="<?= $link['url'] ?>" target="_blank"><?= $link['url'] ?></a></td>
+                        <td><?= $link['created_at'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>
