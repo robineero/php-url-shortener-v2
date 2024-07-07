@@ -17,10 +17,18 @@ function getConnection() {
     return $conn;
 }
 
-if (isset($_POST['url']) && isset($_POST['slug'])) {
+function getLinks() {
 
-    echo $_POST['url'] . PHP_EOL;
-    echo $_POST['slug'];
+    $sql = "SELECT * FROM link ORDER BY created_at DESC";
+    $conn = getConnection();
+    $stmt = $conn->prepare($sql);
+    $result = $stmt->executeQuery();
+    $conn->close();
+
+    return $result->fetchAllAssociative();
+}
+
+if (isset($_POST['url']) && isset($_POST['slug'])) {
 
     $created_at = date('Y-m-d H:i:s');
 
@@ -36,5 +44,3 @@ if (isset($_POST['url']) && isset($_POST['slug'])) {
 
     $conn->close();
 }
-
-

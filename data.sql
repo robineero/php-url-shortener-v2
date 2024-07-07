@@ -13,8 +13,9 @@ CREATE TABLE link
 );
 
 CREATE TABLE log (
-                     link_id integer,
-                     created_at text);
+     link_id integer,
+     created_at text
+ );
 
 INSERT INTO link (slug, url) values ('abc', '');
 INSERT INTO link (slug, url) values ('xyz', '');

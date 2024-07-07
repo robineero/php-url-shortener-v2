@@ -10,6 +10,8 @@ $slug = basename($_SERVER["REQUEST_URI"]);
 
 function redirect($slug) {
 
+    $slug = strpos($slug, "?") ? strstr($slug, "?", true) : $slug;
+
     $conn = getConnection();
     $sql = "SELECT * FROM link WHERE slug = :slug LIMIT 1";
     $stmt = $conn->prepare($sql);
@@ -32,24 +34,27 @@ function redirect($slug) {
 
         $conn->close();
 
-//        header("Location: " . $row['url'], true, 302);
-//        exit;
+        header("Location: " . $row['url'], true, 301);
+        exit;
     }
 
 }
 
-if ($slug && $slug !== "redirect") {
+if ($slug && $slug !== $_ENV['DIR_NAME']) {
     redirect($slug);
 }
 
 $temp = time();
+$links = getLinks();
 
 ?>
 
-<a href="<?php echo $temp; ?>" target="_blank"><?php echo $temp; ?></a>
-
 <form action="functions.php" method="POST">
-    URL: <input type="text" name="url" value=""><br>
+    URL: <input type="text" name="url" value="https://erimell.ee/pood/?fwp_pakendi_suurus=vaat&fwp_brand=mannol"><br>
     Slug: <input type="text" name="slug" value="<?php echo $temp; ?>"><br>
     <input type="submit">
 </form>
+
+<?php foreach ($links as $link): ?>
+    <a href="<?= $link['slug'] ?>" target="_blank"><?= $link['slug'] ?></a><br>
+<?php endforeach; ?>
